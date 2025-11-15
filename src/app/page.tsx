@@ -18,6 +18,7 @@ export default function Home() {
   const [mode, setMode] = useState<Mode>(null);
   const [pathPoints, setPathPoints] = useState<Point[]>([]);
   const [routeResult, setRouteResult] = useState<RouteResult | null>(null);
+  const [useTSP, setUseTSP] = useState<boolean>(true);
 
   const updateGrid = () => {
     const newGrid = generateEmptyGrid(GRID_SIZE, GRID_SIZE);
@@ -68,7 +69,7 @@ export default function Home() {
   const handleOptimize = () => {
     if (!start || deliveries.length === 0) return;
 
-    const result = optimizeRoute(start, deliveries, grid);
+    const result = optimizeRoute(start, deliveries, grid, useTSP);
     setRouteResult(result);
 
     const allPathPoints: Point[] = [];
@@ -115,15 +116,6 @@ export default function Home() {
   return (
     <div className="min-h-screen font-display pb-15">
       <Container className="pt-10">
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-800 mb-2">
-            Delivery Route Optimizer
-          </h1>
-          <p className="text-gray-500 text-md font-sans">
-            Simulate delivery route optimization using A* pathfinding and TSP
-            algorithms
-          </p>
-        </div>
         <div className="bg-white rounded-lg shadow-xl p-6 mb-6">
           <ControlPanel
             mode={mode}
@@ -133,6 +125,8 @@ export default function Home() {
             onRandomObstacles={handleRandomObstacles}
             hasStart={start !== null}
             deliveryCount={deliveries.length}
+            useTSP={useTSP}
+            setUseTSP={setUseTSP}
           />
         </div>
 
@@ -143,11 +137,12 @@ export default function Home() {
             onCellClick={handleCellClick}
             onCellRightClick={handleCellRightClick}
             pathPoints={pathPoints}
+            deliveries={deliveries}
           />
 
           {/* Result */}
           <div>
-            <RouteInfo routeResult={routeResult} />
+            <RouteInfo routeResult={routeResult} useTSP={useTSP} deliveries={deliveries} />
           </div>
         </div>
       </Container>

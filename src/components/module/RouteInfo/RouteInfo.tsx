@@ -1,11 +1,14 @@
-import { RouteResult } from '@/types/gridType';
+import { RouteResult, Point } from '@/types/gridType';
 import { Clock, TrendingUp, MapPin } from 'lucide-react';
+import { pointsEqual } from '@/utils/gridUtils';
 
 interface RouteInfoProps {
   routeResult: RouteResult | null;
+  useTSP?: boolean;
+  deliveries: Point[];
 }
 
-function RouteInfo({ routeResult }: RouteInfoProps) {
+function RouteInfo({ routeResult, useTSP = true, deliveries }: RouteInfoProps) {
   if (!routeResult || routeResult.order.length <= 1) {
     return (
       <div className="bg-white rounded-lg s p-6 ">
@@ -20,7 +23,9 @@ function RouteInfo({ routeResult }: RouteInfoProps) {
     return routeResult.order
       .map((point, index) => {
         if (index === 0) return 'Start';
-        return `P${index}`;
+        // Find which original delivery point this is
+        const deliveryIndex = deliveries.findIndex((d) => pointsEqual(d, point));
+        return deliveryIndex >= 0 ? `P${deliveryIndex + 1}` : `P${index}`;
       })
       .join(' → ');
   };
@@ -51,8 +56,13 @@ function RouteInfo({ routeResult }: RouteInfoProps) {
 
       <div className="mt-4 pt-4 border-t border-gray-200 font-sans">
         <p className="text-sm text-gray-500">
-          <span className="font-semibold">Algorithm:</span> A* Pathfinding + Nearest Neighbor TSP
+          <span className="font-semibold">Algorithm:</span> {useTSP ? 'A* Pathfinding + TSP Optimization' : 'A* Pathfinding Only (Sequential Order)'}
         </p>
+        {!useTSP && (
+          <p className="text-xs text-amber-600 mt-2">
+            💡 Enable TSP optimization to minimize total distance by reordering delivery points
+          </p>
+        )}
       </div>
     </div>
   );

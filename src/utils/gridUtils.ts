@@ -1,6 +1,6 @@
 import { Cell, Point } from "@/types/gridType";
 
-export const GRID_SIZE = 21;
+export const GRID_SIZE = 15;
 
 export function generateEmptyGrid(rows: number, cols: number): Cell[][] {
   const grid: Cell[][] = [];

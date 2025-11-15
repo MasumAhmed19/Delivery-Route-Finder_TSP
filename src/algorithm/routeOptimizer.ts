@@ -5,7 +5,8 @@ import { findPath } from './astar';
 export function optimizeRoute(
   start: Point,
   deliveries: Point[],
-  grid: Cell[][]
+  grid: Cell[][],
+  useTSP: boolean = true
 ): RouteResult {
   if (deliveries.length === 0) {
     return {
@@ -15,15 +16,20 @@ export function optimizeRoute(
     };
   }
 
-  const order = nearestNeighborTSP(start, deliveries, grid);
+  const order = useTSP 
+    ? nearestNeighborTSP(start, deliveries, grid)
+    : simpleRoute(start, deliveries);
   const { totalDistance, paths } = calculateRouteDetails(order, grid);
-  // const estimatedTime = Math.round(totalDistance * 0.2);
 
   return {
     order,
     totalDistance,
     paths,
   };
+}
+
+function simpleRoute(start: Point, deliveries: Point[]): Point[] {
+  return [start, ...deliveries];
 }
 
 function nearestNeighborTSP(

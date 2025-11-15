@@ -6,6 +6,7 @@ interface GridProps {
   onCellClick: (x: number, y: number) => void;
   onCellRightClick: (x: number, y: number) => void;
   pathPoints: Point[];
+  deliveries: Point[];
 }
 
 const Grid = ({
@@ -13,7 +14,13 @@ const Grid = ({
   onCellClick,
   onCellRightClick,
   pathPoints,
+  deliveries,
 }: GridProps) => {
+  const getDeliveryNumber = (x: number, y: number): number | null => {
+    const index = deliveries.findIndex((p) => pointsEqual(p, { x, y }));
+    return index >= 0 ? index + 1 : null;
+  };
+
   const getCellColor = (cell: Cell): string => {
     const isPath = pathPoints.some((p) =>
       pointsEqual(p, { x: cell.x, y: cell.y })
@@ -68,23 +75,27 @@ const Grid = ({
             <div
               className="grid gap-1"
               style={{
-                gridTemplateColumns: `repeat(${grid[0].length}, 25px)`,
-                gridTemplateRows: `repeat(${grid.length}, 25px)`,
+                gridTemplateColumns: `repeat(${grid[0].length}, 40px)`,
+                gridTemplateRows: `repeat(${grid.length}, 40px)`,
               }}
             >
               {grid.map((row, y) =>
-                row.map((cell, x) => (
-                  <div
-                    key={`${x}-${y}`}
-                    className={`${getCellColor(
-                      cell
-                    )} cursor-pointer border border-gray-200 transition-colors`}
-                    onClick={() => onCellClick(x, y)}
-                    onContextMenu={(e) => handleContextMenu(e, x, y)}
-                    title={`(${x}, ${y})`}
-                  >{
-                  }</div>
-                ))
+                row.map((cell, x) => {
+                  const deliveryNum = getDeliveryNumber(x, y);
+                  return (
+                    <div
+                      key={`${x}-${y}`}
+                      className={`${getCellColor(
+                        cell
+                      )} cursor-pointer border border-gray-200 transition-colors flex items-center justify-center text-xs font-bold text-white`}
+                      onClick={() => onCellClick(x, y)}
+                      onContextMenu={(e) => handleContextMenu(e, x, y)}
+                      title={`(${x}, ${y})`}
+                    >
+                      {deliveryNum && `P${deliveryNum}`}
+                    </div>
+                  );
+                })
               )}
             </div>
           </div>
