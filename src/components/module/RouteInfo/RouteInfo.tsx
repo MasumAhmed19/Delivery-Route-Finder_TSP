@@ -33,26 +33,18 @@ function RouteInfo({ routeResult }: RouteInfoProps) {
 
       <div className="space-y-3">
         <div className="flex items-start gap-3">
-          <MapPin className="text-blue-600 mt-1 flex-shrink-0" size={20} />
+          <MapPin className="text-blue-600 mt-1 shrink-0" size={20} />
           <div>
             <p className="font-semibold text-gray-700">Optimized Delivery Order:</p>
-            <p className="text-gray-600 break-words">{formatOrder()}</p>
+            <p className="text-gray-600 wrap-break-words">{formatOrder()}</p>
           </div>
         </div>
 
         <div className="flex items-center gap-3">
-          <TrendingUp className="text-green-600 flex-shrink-0" size={20} />
+          <TrendingUp className="text-green-600 shrink-0" size={20} />
           <div>
             <p className="font-semibold text-gray-700">Total Distance:</p>
             <p className="text-gray-600">{routeResult.totalDistance} units</p>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-3">
-          <Clock className="text-orange-600 flex-shrink-0" size={20} />
-          <div>
-            <p className="font-semibold text-gray-700">Estimated Time:</p>
-            <p className="text-gray-600">{routeResult.estimatedTime} min</p>
           </div>
         </div>
       </div>

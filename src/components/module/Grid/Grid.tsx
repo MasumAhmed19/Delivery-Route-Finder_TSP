@@ -82,7 +82,8 @@ const Grid = ({
                     onClick={() => onCellClick(x, y)}
                     onContextMenu={(e) => handleContextMenu(e, x, y)}
                     title={`(${x}, ${y})`}
-                  />
+                  >{
+                  }</div>
                 ))
               )}
             </div>

@@ -14,6 +14,8 @@ export interface Cell {
 export interface RouteResult {
   order: Point[];
   totalDistance: number;
-  estimatedTime: number;
   paths: Point[][];
 }
+
+
+export type Mode = 'start' | 'delivery' | null;
