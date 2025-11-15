@@ -1,36 +1,108 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🚚 Delivery Route Finder
 
-## Getting Started
+An intelligent delivery route optimization tool that combines **A* pathfinding** and **Traveling Salesman Problem (TSP)** algorithms to find the most efficient delivery routes. 
 
-First, run the development server:
+
+### 🧮 Algorithms
+
+#### A* Pathfinding
+- Finds the shortest path between two points
+- Uses `f(n) = g(n) + h(n)` scoring:
+  - `g(n)`: Actual cost from start to current node
+  - `h(n)`: Heuristic (Manhattan distance to goal)
+  - `f(n)`: Total estimated cost
+- Avoids obstacles dynamically
+
+#### Traveling Salesman Problem (TSP)
+- Optimizes the order of delivery visits
+- Minimizes total travel distance
+- Uses nearest neighbor heuristic for efficiency
+
+### 🎨 User Interface
+- **Numbered Delivery Points**: See P1, P2, P3... as you add deliveries
+- **Mode Selection**: Easy toggle between setting start point and adding deliveries
+- **Algorithm Toggle**: Compare A* Only vs A* + TSP optimization
+- **Detailed Route Info**: 
+  - Total distance
+  - Delivery order (optimized vs sequential)
+  - Algorithm used
+  - Step count
+- **Random Obstacles**: Generate random obstacles for testing
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Node.js 18+ 
+- npm, yarn, pnpm, or bun
+
+### Installation
 
 ```bash
+# Clone the repository
+git clone https://github.com/yourusername/route-finder-v1.git
+cd route-finder-v1
+
+# Install dependencies
+npm install
+# or
+yarn install
+# or
+pnpm install
+```
+
+### Development
+
+```bash
+# Run the development server
 npm run dev
 # or
 yarn dev
 # or
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to see the application.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Build for Production
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+# Create optimized production build
+npm run build
 
-## Learn More
+# Start production server
+npm start
+```
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📖 How to Use
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 1. Set Up Your Route
+1. Click **"Set Start"** button
+2. Click any cell on the grid to place your starting point (blue)
+3. Click **"Add Delivery"** button
+4. Click cells to add delivery points (green, labeled P1, P2, P3...)
 
-## Deploy on Vercel
+### 2. Add Obstacles (Optional)
+- Click **"Random Obstacles"** to generate obstacles automatically
+- Or manually add obstacles by clicking cells after setting points
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 3. Choose Your Algorithm
+- **A* Only (No Optimization)**: Visits deliveries in the order you clicked them
+- **A* + TSP (Optimized)**: Reorders deliveries to minimize total distance
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 4. Optimize & View Results
+- Click **"Optimize Route"** to calculate the best path
+- View route information including:
+  - Total distance traveled
+  - Optimized delivery order
+  - Number of steps
+  - Algorithm comparison insights
+
+### 5. Modify or Reset
+- **Right-click** any point to remove it
+- Click **"Clear Grid"** to start over
+
+---
