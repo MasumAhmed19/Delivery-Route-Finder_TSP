@@ -13,6 +13,7 @@ export default function Home() {
   const [grid, setGrid] = useState<Cell[][]>(() =>
     generateEmptyGrid(GRID_SIZE, GRID_SIZE)
   );
+  const test=1111;
   const [start, setStart] = useState<Point | null>(null);
   const [deliveries, setDeliveries] = useState<Point[]>([]);
   const [mode, setMode] = useState<Mode>(null);
